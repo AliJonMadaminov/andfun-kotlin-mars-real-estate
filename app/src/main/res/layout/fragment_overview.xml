@@ -48,7 +48,16 @@
             tools:itemCount="16"
             tools:listitem="@layout/grid_view_item" />
 
-        <!-- TODO (05) Add ImageView to the ConstraintLayout, wrap_content, same constraints as RecyclerView -->
+        <ImageView
+            android:id="@+id/load_status_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:apiStatus="@{viewModel.status}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
