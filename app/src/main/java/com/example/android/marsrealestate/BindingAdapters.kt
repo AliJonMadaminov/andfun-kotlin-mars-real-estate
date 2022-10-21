@@ -61,17 +61,21 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
  */
 @BindingAdapter("marsApiStatus")
 fun bindStatus(statusImageView: ImageView, status: MarsApiStatus?) {
-    when (status) {
-        MarsApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.loading_animation)
-        }
-        MarsApiStatus.ERROR -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_connection_error)
-        }
-        MarsApiStatus.DONE -> {
-            statusImageView.visibility = View.GONE
+    status?.let {
+        when (status) {
+            MarsApiStatus.LOADING -> {
+                statusImageView.visibility = View.VISIBLE
+                statusImageView.setImageResource(R.drawable.loading_animation)
+            }
+            MarsApiStatus.ERROR -> {
+                statusImageView.visibility = View.VISIBLE
+                statusImageView.setImageResource(R.drawable.ic_connection_error)
+            }
+            MarsApiStatus.DONE -> {
+                statusImageView.visibility = View.GONE
+            }
+
         }
     }
+
 }

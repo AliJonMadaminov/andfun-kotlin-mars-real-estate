@@ -17,6 +17,8 @@
 
 package com.example.android.marsrealestate.network
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.squareup.moshi.Json
 
 /**
@@ -24,11 +26,44 @@ import com.squareup.moshi.Json
  * or rental) and the price (monthly if it's a rental).
  * The property names of this data class are used by Moshi to match the names of values in JSON.
  */
-// TODO (11) Add @Parcelize annotation to MarsProperty and have it implement Parcelable
+
 data class MarsProperty(
-        val id: String,
-        // used to map img_src from the JSON to imgSrcUrl in our class
-        @Json(name = "img_src") val imgSrcUrl: String,
-        val type: String,
-        val price: Double)
-    // TODO (17) Add isRental Boolean property where get() = type == "rent"
+    val id: String,
+    // used to map img_src from the JSON to imgSrcUrl in our class
+    @Json(name = "img_src") val imgSrcUrl: String,
+    val type: String,
+    val price: Double,
+    val isRental: Boolean = type == "rent"
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readDouble(),
+        parcel.readByte() != 0.toByte()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(imgSrcUrl)
+        parcel.writeString(type)
+        parcel.writeDouble(price)
+        parcel.writeByte(if (isRental) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<MarsProperty> {
+        override fun createFromParcel(parcel: Parcel): MarsProperty {
+            return MarsProperty(parcel)
+        }
+
+        override fun newArray(size: Int): Array<MarsProperty?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+}

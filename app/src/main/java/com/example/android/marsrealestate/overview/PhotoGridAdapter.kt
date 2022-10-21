@@ -29,15 +29,15 @@ import com.example.android.marsrealestate.network.MarsProperty
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between lists.
  */
-// TODO (08) Have PhotoGridAdapter take the OnClickListener class as a constructor property parameter
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
+class PhotoGridAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
 
     /**
      * The MarsPropertyViewHolder constructor takes the binding variable from the associated
      * GridViewItem, which nicely gives it access to the full [MarsProperty] information.
      */
-    class MarsPropertyViewHolder(private var binding: GridViewItemBinding):
-            RecyclerView.ViewHolder(binding.root) {
+    class MarsPropertyViewHolder(private var binding: GridViewItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(marsProperty: MarsProperty) {
             binding.property = marsProperty
             // This is important, because it forces the data binding to execute immediately,
@@ -63,8 +63,10 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
     /**
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MarsPropertyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MarsPropertyViewHolder {
         return MarsPropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
@@ -73,9 +75,13 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
      */
     override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
         val marsProperty = getItem(position)
-        // TODO (09) Call the onClick Function from the onClickListener in a lambda from setOnClickListener
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(marsProperty)
+        }
         holder.bind(marsProperty)
     }
 
-    // TODO (07) Create an OnClickListener class with a lambda in its constructor that initializes a matching onClick function
+    class OnClickListener(private val clickListener: (marsProperty: MarsProperty) -> Unit) {
+        fun onClick(marsProperty: MarsProperty) = clickListener(marsProperty)
+    }
 }
