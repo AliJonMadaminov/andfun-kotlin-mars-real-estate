@@ -21,6 +21,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.marsrealestate.network.MarsApi
+import com.example.android.marsrealestate.network.MarsApiFilter
 import com.example.android.marsrealestate.network.MarsProperty
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.Dispatchers
@@ -66,11 +67,14 @@ class OverviewViewModel : ViewModel() {
     }
 
     /**
-     * Gets Mars real estate property information from the Mars API Retrofit service and updates the
-     * [MarsProperty] [List] and [MarsApiStatus] [LiveData]. The Retrofit service returns a
-     * coroutine Deferred, which we await to get the result of the transaction.
+     * Gets filtered Mars real estate property information from the Mars API Retrofit service and
+     * updates the [MarsProperty] [List] and [MarsApiStatus] [LiveData]. The Retrofit service
+     * returns a coroutine Deferred, which we await to get the result of the transaction.
+     * @param filter the [MarsApiFilter] that is sent as part of the web server request
      */
+
     private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
+
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {
@@ -101,6 +105,11 @@ class OverviewViewModel : ViewModel() {
         _navigateToSelectedProperty.value = null
     }
 
+    /**
+     * Updates the data set filter for the web services by querying the data with the new filter
+     * by calling [getMarsRealEstateProperties]
+     * @param filter the [MarsApiFilter] that is sent as part of the web server request
+     */
     fun updateFilter(filter: MarsApiFilter) {
         getMarsRealEstateProperties(filter)
     }

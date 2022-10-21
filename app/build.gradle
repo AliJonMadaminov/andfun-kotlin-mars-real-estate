@@ -21,6 +21,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
+
     compileSdkVersion 33
     buildFeatures {
         dataBinding true
@@ -63,8 +64,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
-    implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
@@ -77,11 +78,13 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
 
+
     // Retrofit with Moshi Converter
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
 
     // Moshi Kotlin codegen
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.14.0'
+
     // Coroutines - Deprecated - No more required
     // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
     // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
