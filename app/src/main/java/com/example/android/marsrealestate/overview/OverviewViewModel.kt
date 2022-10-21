@@ -26,6 +26,7 @@ import com.example.android.marsrealestate.network.MarsProperty
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.Dispatchers
 import androidx.lifecycle.viewModelScope
+import com.example.android.marsrealestate.network.MarsApiFilter
 import kotlinx.coroutines.launch
 
 enum class MarsApiStatus { LOADING, ERROR, DONE }
@@ -62,7 +63,7 @@ class OverviewViewModel : ViewModel() {
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
     init {
-        getMarsRealEstateProperties(MarsApiFilter.SHOW_ALL)
+        getMarsRealEstateProperties(MarsApiFilter.ALL)
     }
 
     /**
@@ -71,7 +72,9 @@ class OverviewViewModel : ViewModel() {
      * returns a coroutine Deferred, which we await to get the result of the transaction.
      * @param filter the [MarsApiFilter] that is sent as part of the web server request
      */
-     private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
+
+    private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
+
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {

@@ -83,18 +83,14 @@ class OverviewFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    /**
-     * Updates the filter in the [OverviewViewModel] when the menu items are selected from the
-     * overflow menu.
-     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         viewModel.updateFilter(
-                when (item.itemId) {
-                    R.id.show_rent_menu -> MarsApiFilter.SHOW_RENT
-                    R.id.show_buy_menu -> MarsApiFilter.SHOW_BUY
-                    else -> MarsApiFilter.SHOW_ALL
-                }
-        )
+            when(item.itemId) {
+                R.id.show_rent_menu -> MarsApiFilter.RENT
+                R.id.show_buy_menu -> MarsApiFilter.BUY
+                else -> MarsApiFilter.ALL
+            })
+
         return true
     }
 }
